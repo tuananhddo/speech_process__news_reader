@@ -8,6 +8,7 @@ import ImageSearch from './screens/ImageSearch';
 import VideoSearch from './screens/VideoSearch';
 
 import Microphone from './components/Microphone';
+import NewsSearch from './screens/NewsSearch';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -34,6 +35,11 @@ const MicrophoneStack = () => {
         name="VideoSearch"
         component={VideoSearch}
         options={{title: 'Search for videos'}}
+      />
+      <Stack.Screen
+        name="NewsSearch"
+        component={NewsSearch}
+        options={{title: 'News List'}}
       />
     </Stack.Navigator>
   );
