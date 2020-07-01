@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Container } from "react-native";
 
 import WeatherSearch from './screens/WeatherSearch';
 import ImageSearch from './screens/ImageSearch';
 import VideoSearch from './screens/VideoSearch';
 
 import Microphone from './components/Microphone';
-import SearchBar from './components/SearchBar';
+
 import NewsSearch from './screens/NewsSearch';
 
 const Tab = createBottomTabNavigator();
@@ -22,7 +22,6 @@ const MicrophoneStack = () => {
         component={Microphone}
         options={{ title: 'Speech to text' }}
       />
-      <Stack.Screen name="Search Bar" component={SearchBar} />
       <Stack.Screen
         name="WeatherSearch"
         component={WeatherSearch}

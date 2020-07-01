@@ -1,12 +1,27 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, FlatList, View, TouchableOpacity, Alert} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+    StyleSheet,
+    FlatList,
+    View,
+    TouchableOpacity,
+    Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Voice from '@react-native-community/voice';
 import Sound from 'react-native-sound';
-import {Button, ListItem, Text, Left, Body, Right, Thumbnail} from 'native-base';
+import {
+    Button,
+    ListItem,
+    Text,
+    Left,
+    Body,
+    Right,
+    Thumbnail,
+} from 'native-base';
+import SearchBar from './SearchBar';
 // import Modal from '../components/modal';
 
-const Microphone = ({navigation}) => {
+const Microphone = ({ navigation }) => {
     const [icon, setIcon] = useState('microphone');
     const [text, setText] = useState('');
     const [language, setLanguage] = useState('vi-VN');
@@ -24,12 +39,12 @@ const Microphone = ({navigation}) => {
 
     function sendKeyWordToAPI(keyword) {
         return fetch(base_url + '/search?q=' + keyword)
-            .then((response) => response.json())
-            .then((json) => {
+            .then(response => response.json())
+            .then(json => {
                 setData(json);
                 console.log('Get Response');
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error(error);
             });
     }
@@ -82,7 +97,7 @@ const Microphone = ({navigation}) => {
         }
     };
 
-    const Divider = () => <View style={styles.divider}/>;
+    const Divider = () => <View style={styles.divider} />;
     const styles2 = StyleSheet.create({
         lottie: {
             width: 100,
@@ -94,7 +109,7 @@ const Microphone = ({navigation}) => {
         console.log('postLink:' + postLink);
 
         function setGlobalSound(link) {
-            var hello = new Sound(link, null, (error) => {
+            var hello = new Sound(link, null, error => {
                 if (error) {
                     console.log(error);
                 }
@@ -106,8 +121,6 @@ const Microphone = ({navigation}) => {
                     console.log('Sound Playing');
                 });
             });
-
-
         }
 
         const formData = new FormData();
@@ -128,15 +141,14 @@ const Microphone = ({navigation}) => {
             // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: formData, // body data type must match "Content-Type" header
         })
-            .then((response) => response.json())
-            .then((json) => {
+            .then(response => response.json())
+            .then(json => {
                 setGlobalSound(json.link);
                 console.log('Get Response' + json.link);
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error(error);
             });
-
 
         // hello.play((success) => {
         //     if (!success) {
@@ -145,21 +157,30 @@ const Microphone = ({navigation}) => {
         // });
     }
 
-    const _renderItem = ({item, index}) => {
+    const _renderItem = ({ item, index }) => {
         return (
             <ListItem avatar>
                 <Left>
-                    <Thumbnail source={{uri: 'https://3d-model-cdn.s3-ap-southeast-1.amazonaws.com/planet.png'}}/>
+                    <Thumbnail
+                        source={{
+                            uri:
+                                'https://3d-model-cdn.s3-ap-southeast-1.amazonaws.com/planet.png',
+                        }}
+                    />
                 </Left>
                 <Body>
                     <Text>{item.name}</Text>
-                    <Text note numberOfLines={1}>{item.source}</Text>
+                    <Text note numberOfLines={1}>
+                        {item.source}
+                    </Text>
                 </Body>
                 <Right>
-                    <Button small onPress={() => {
-                        playSound(item.link);
-                        navigation.navigate('NewsSearch', {url: item.link});
-                    }}>
+                    <Button
+                        small
+                        onPress={() => {
+                            playSound(item.link);
+                            navigation.navigate('NewsSearch', { url: item.link });
+                        }}>
                         <Text>View</Text>
                     </Button>
                 </Right>
@@ -168,8 +189,11 @@ const Microphone = ({navigation}) => {
     };
     return (
         <View style={styles.container_}>
+            <View>
+                <SearchBar />
+            </View>
             <View style={styles.threeFlex}>
-                {!!text ? (
+                {text ? (
                     <FlatList
                         data={data}
                         // keyExtractor={({id}, index) => id}
@@ -188,8 +212,8 @@ const Microphone = ({navigation}) => {
                         renderItem={_renderItem}
                     />
                 ) : (
-                    <Text style={styles.recWarn}>Record First xD</Text>
-                )}
+                        <Text style={styles.recWarn}>Record First xD</Text>
+                    )}
             </View>
 
             <View style={styles.twoFlex}>
@@ -201,18 +225,18 @@ const Microphone = ({navigation}) => {
             <View style={styles.oneFlex_}>
                 <View style={styles.controlPart}>
                     <TouchableOpacity
-                        style={{alignItems: 'center'}}
+                        style={{ alignItems: 'center' }}
                         onPress={() => {
                             setLanguage(language === 'vi-VN' ? 'en-US' : 'vi-VN');
                         }}>
                         <Text>{language}</Text>
-                        <Icon name="search-plus" size={32} color="blue"/>
+                        <Icon name="search-plus" size={32} color="blue" />
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.controlPart}>
                     <TouchableOpacity onPress={touchMicro}>
-                        <Icon name={icon} size={50} color="green"/>
+                        <Icon name={icon} size={50} color="green" />
                     </TouchableOpacity>
                 </View>
 
@@ -226,7 +250,7 @@ const Microphone = ({navigation}) => {
                                 global.sound.stop();
                             }
                         }}>
-                        <Icon name="refresh" size={50} color="#1E1E1E"/>
+                        <Icon name="refresh" size={50} color="#1E1E1E" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -301,7 +325,6 @@ const styles = StyleSheet.create({
         color: '#E68585',
         justifyContent: 'center',
         textAlign: 'center',
-
     },
 });
 

@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
-import {WebView} from 'react-native-webview';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Image } from 'react-native';
+import { WebView } from 'react-native-webview';
 
-const NewsSearch = ({route}) => {
+const NewsSearch = ({ route }) => {
   // const [text, setText] = useState('');
 
   // useEffect(() => {
@@ -22,9 +22,9 @@ const NewsSearch = ({route}) => {
   return (
     <WebView
       source={{
-        uri: route.params.url
+        uri: route.params.url,
       }}
-      // source={{html: '<h1>love<h1>'}}
+    // source={{html: '<h1>love<h1>'}}
     />
   );
 };
