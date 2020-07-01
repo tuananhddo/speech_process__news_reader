@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Voice from '@react-native-community/voice';
 import Sound from 'react-native-sound';
 import {Button, ListItem, Text, Left, Body, Right, Thumbnail} from 'native-base';
+import {BASE_URL} from '../constants/apiKey';
 // import Modal from '../components/modal';
 
 const Microphone = ({navigation}) => {
@@ -20,10 +21,10 @@ const Microphone = ({navigation}) => {
     //   };
     // }, [text]);
     const [data, setData] = useState([]);
-    const base_url = 'https://api-xltn.herokuapp.com';
+    // const BASE_URL = '';
 
     function sendKeyWordToAPI(keyword) {
-        return fetch(base_url + '/search?q=' + keyword)
+        return fetch(BASE_URL + '/search?q=' + keyword)
             .then((response) => response.json())
             .then((json) => {
                 setData(json);
@@ -113,7 +114,7 @@ const Microphone = ({navigation}) => {
         const formData = new FormData();
         formData.append('link', postLink);
 
-        fetch(base_url + '/post', {
+        fetch(BASE_URL + '/post', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             // mode: 'cors', // no-cors, *cors, same-origin
             // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
