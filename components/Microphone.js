@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     StyleSheet,
     FlatList,
@@ -19,26 +19,16 @@ import {
     Thumbnail,
 } from 'native-base';
 import SearchBar from './SearchBar';
-// import Modal from '../components/modal';
+import {BASE_URL} from '../constants/apiKey';
 
-const Microphone = ({ navigation }) => {
+const Microphone = ({navigation}) => {
     const [icon, setIcon] = useState('microphone');
     const [text, setText] = useState('');
     const [language, setLanguage] = useState('vi-VN');
-
-    // useEffect(() => {
-    //   if (text) {
-    //     sendKeyword(text);
-    //   }
-    //   return () => {
-    //     Voice.destroy().then(Voice.removeAllListeners);
-    //   };
-    // }, [text]);
     const [data, setData] = useState([]);
-    const base_url = 'https://api-xltn.herokuapp.com';
 
     function sendKeyWordToAPI(keyword) {
-        return fetch(base_url + '/search?q=' + keyword)
+        return fetch(BASE_URL + '/search?q=' + keyword + '/')
             .then(response => response.json())
             .then(json => {
                 setData(json);
@@ -97,7 +87,7 @@ const Microphone = ({ navigation }) => {
         }
     };
 
-    const Divider = () => <View style={styles.divider} />;
+    const Divider = () => <View style={styles.divider}/>;
     const styles2 = StyleSheet.create({
         lottie: {
             width: 100,
@@ -126,19 +116,11 @@ const Microphone = ({ navigation }) => {
         const formData = new FormData();
         formData.append('link', postLink);
 
-        fetch(base_url + '/post', {
+        fetch(BASE_URL + '/post', {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            // mode: 'cors', // no-cors, *cors, same-origin
-            // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            // credentials: 'same-origin', // include, *same-origin, omit
             headers: {
                 Accept: 'application/json',
-
-                // 'Content-Type': 'application/json',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            // redirect: 'follow', // manual, *follow, error
-            // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: formData, // body data type must match "Content-Type" header
         })
             .then(response => response.json())
@@ -149,15 +131,9 @@ const Microphone = ({ navigation }) => {
             .catch(error => {
                 console.error(error);
             });
-
-        // hello.play((success) => {
-        //     if (!success) {
-        //         console.log('Sound did not play');
-        //     }
-        // });
     }
 
-    const _renderItem = ({ item, index }) => {
+    const _renderItem = ({item, index}) => {
         return (
             <ListItem avatar>
                 <Left>
@@ -179,7 +155,7 @@ const Microphone = ({ navigation }) => {
                         small
                         onPress={() => {
                             playSound(item.link);
-                            navigation.navigate('NewsSearch', { url: item.link });
+                            navigation.navigate('NewsSearch', {url: item.link});
                         }}>
                         <Text>View</Text>
                     </Button>
@@ -189,31 +165,19 @@ const Microphone = ({ navigation }) => {
     };
     return (
         <View style={styles.container_}>
-            <View>
-                <SearchBar />
+            <View style={styles.searchBar}>
+                <SearchBar/>
             </View>
-            <View style={styles.threeFlex}>
+            <View style={styles.listNews}>
                 {text ? (
                     <FlatList
                         data={data}
-                        // keyExtractor={({id}, index) => id}
-                        // renderItem={({item}) =>
-                        //     <View style={styles.oneFlex} key={'doclist' + Date.now()}>
-                        //         <TouchableOpacity
-                        //             style={styles.oneFlex}
-                        //             onPress={() => {
-                        //                 playSound(item.link);
-                        //                 navigation.navigate('NewsSearch', {url: item.link});
-                        //             }}>
-                        //             {/*<Icon name="video-camera" size={50} color="blue"/>*/}
-                        //             <Text style={styles.div}>{item.name}</Text>
-                        //         </TouchableOpacity>
-                        //     </View>}
+                        keyExtractor={({id}, index) => 'news' + index}
                         renderItem={_renderItem}
                     />
                 ) : (
-                        <Text style={styles.recWarn}>Record First xD</Text>
-                    )}
+                    <Text style={styles.recWarn}>Ghi âm</Text>
+                )}
             </View>
 
             <View style={styles.twoFlex}>
@@ -225,18 +189,18 @@ const Microphone = ({ navigation }) => {
             <View style={styles.oneFlex_}>
                 <View style={styles.controlPart}>
                     <TouchableOpacity
-                        style={{ alignItems: 'center' }}
+                        style={{alignItems: 'center'}}
                         onPress={() => {
                             setLanguage(language === 'vi-VN' ? 'en-US' : 'vi-VN');
                         }}>
                         <Text>{language}</Text>
-                        <Icon name="search-plus" size={32} color="blue" />
+                        <Icon name="search-plus" size={32} color="blue"/>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.controlPart}>
                     <TouchableOpacity onPress={touchMicro}>
-                        <Icon name={icon} size={50} color="green" />
+                        <Icon name={icon} size={50} color="green"/>
                     </TouchableOpacity>
                 </View>
 
@@ -250,7 +214,7 @@ const Microphone = ({ navigation }) => {
                                 global.sound.stop();
                             }
                         }}>
-                        <Icon name="refresh" size={50} color="#1E1E1E" />
+                        <Icon name="refresh" size={50} color="#1E1E1E"/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -273,6 +237,16 @@ const styles = StyleSheet.create({
         flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    listNews: {
+        flex: 8,
+    },
+    searchBar: {
+        flex: 1,
+        // alignItems: 'center',
+        // borderBottomWidth: 1,
+        // borderBottomColor: 'blue',
+        // backgroundColor: 'red',
     },
     div: {
         // flex: 1,

@@ -22,10 +22,7 @@ const ImageSearch = ({route}) => {
   return (
     <WebView
       source={{
-        uri: `https://www.google.com/search?q=${
-          route.params.text
-        }&sxsrf=ALeKk02uMIddHWjjM-4zEVU9zxnmwHw2Bg:1592568331244&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiq76et643qAhXaA4gKHUd8DvgQ_AUoAXoECA8QAw&biw=1920&bih=976`,
-      }}
+        uri: `https://www.google.com/`}}
       // source={{html: '<h1>love<h1>'}}
     />
   );

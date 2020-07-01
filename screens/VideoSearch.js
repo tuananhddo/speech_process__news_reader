@@ -6,9 +6,7 @@ const VideoSearch = ({route}) => {
   return (
     <WebView
       source={{
-        uri: `https://www.youtube.com/results?search_query=${
-          route.params.text
-        }`,
+        uri: `https://www.youtube.com`,
       }}
     />
   );

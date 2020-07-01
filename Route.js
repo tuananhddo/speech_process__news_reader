@@ -20,7 +20,7 @@ const MicrophoneStack = () => {
       <Stack.Screen
         name="SpeechToText"
         component={Microphone}
-        options={{ title: 'Speech to text' }}
+        options={{ title: 'Tìm kiếm tin tức' }}
       />
       <Stack.Screen
         name="WeatherSearch"
