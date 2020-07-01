@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import WeatherSearch from './screens/WeatherSearch';
@@ -8,6 +8,7 @@ import ImageSearch from './screens/ImageSearch';
 import VideoSearch from './screens/VideoSearch';
 
 import Microphone from './components/Microphone';
+import SearchBar from './components/SearchBar';
 import NewsSearch from './screens/NewsSearch';
 
 const Tab = createBottomTabNavigator();
@@ -19,27 +20,28 @@ const MicrophoneStack = () => {
       <Stack.Screen
         name="SpeechToText"
         component={Microphone}
-        options={{title: 'Speech to text'}}
+        options={{ title: 'Speech to text' }}
       />
+      <Stack.Screen name="Search Bar" component={SearchBar} />
       <Stack.Screen
         name="WeatherSearch"
         component={WeatherSearch}
-        options={{title: 'Search weather in location'}}
+        options={{ title: 'Search weather in location' }}
       />
       <Stack.Screen
         name="ImageSearch"
         component={ImageSearch}
-        options={{title: 'Search for images'}}
+        options={{ title: 'Search for images' }}
       />
       <Stack.Screen
         name="VideoSearch"
         component={VideoSearch}
-        options={{title: 'Search for videos'}}
+        options={{ title: 'Search for videos' }}
       />
       <Stack.Screen
         name="NewsSearch"
         component={NewsSearch}
-        options={{title: 'News List'}}
+        options={{ title: 'News List' }}
       />
     </Stack.Navigator>
   );
