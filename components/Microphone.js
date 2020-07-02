@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     Alert,
 } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+import IconFontAws from 'react-native-vector-icons/FontAwesome';
 import Voice from '@react-native-community/voice';
 import Sound from 'react-native-sound';
 import {
@@ -29,12 +29,15 @@ const Microphone = ({navigation}) => {
     const [text, setText] = useState('');
     const [language, setLanguage] = useState('vi-VN');
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     function sendKeyWordToAPI(keyword) {
+        setLoading(true);
         return fetch(BASE_URL + '/search?q=' + keyword + '/')
             .then(response => response.json())
             .then(json => {
                 setData(json);
+                setLoading(false);
                 console.log('Get Response');
             })
             .catch(error => {
@@ -150,7 +153,7 @@ const Microphone = ({navigation}) => {
                         rounded
                         onPress={() => {
                             playSound(item.link);
-                            navigation.navigate('NewsSearch', {url: item.link});
+                            navigation.navigate(' NewsSearch', {url: item.link});
                         }}>
                         <Icon name='grid'/>
                     </Button>
@@ -170,7 +173,7 @@ const Microphone = ({navigation}) => {
             </View>
             <View style={styles.listNews}>
                 {text ? (
-                    data.length > 0 ?
+                    !loading ?
                         <FlatList
                             data={data}
                             key={'myFlatList'}
@@ -197,16 +200,16 @@ const Microphone = ({navigation}) => {
                     <TouchableOpacity
                         style={{alignItems: 'center'}}
                         onPress={() => {
-                            setLanguage(language === 'vi-VN' ? 'en-US' : 'vi-VN');
+                            setLanguage(language === 'vi-VN' ? 'EN' : 'VN');
                         }}>
                         <Text>{language}</Text>
-                        <Icon name="ios-search" size={32} color="blue"/>
+                        <Icon name="book" size={32} color="blue" style={{color: 'blue'}}/>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.controlPart}>
                     <TouchableOpacity onPress={touchMicro}>
-                        <Icon name={icon} size={200} color="green"/>
+                        <IconFontAws name={icon} size={25} color="green"/>
                     </TouchableOpacity>
                 </View>
 
@@ -223,92 +226,101 @@ const Microphone = ({navigation}) => {
                         <Icon name="refresh" size={50} color="#1E1E1E"/>
                     </TouchableOpacity>
                 </View>
-            </View>
-        </View>
-    );
-};
+                <View style={styles.controlPart}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate('Help', {setLanguage: setLanguage, language: language});
 
-const styles = StyleSheet.create({
-    container_: {
-        flex: 1,
-    },
-    threeFlex: {
-        flex: 3,
-        // alignItems: 'center',
-        // borderBottomWidth: 1,
-        // borderBottomColor: 'blue',
-        // backgroundColor: 'red',
-    },
-    twoFlex: {
-        flex: 2,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    listNews: {
-        flex: 8,
-    },
-    searchBar: {
-        flex: 1,
-        // alignItems: 'center',
-        // borderBottomWidth: 1,
-        // borderBottomColor: 'blue',
-        // backgroundColor: 'red',
-    },
-    div: {
-        // flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: 'blue',
-    },
-    oneFlex: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    oneFlex_: {
-        borderTopWidth: 1,
-        borderTopColor: 'blue',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-    },
-    controlPart: {
-        flexBasis: '33%',
-        alignItems: 'center',
-        // alignContent: 'center',
-    },
-    keyword: {
-        flex: 1,
-        marginHorizontal: 30,
-        justifyContent: 'center',
-    },
-    keyword_text: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 30,
-        borderBottomWidth: 3,
-        borderBottomColor: '#515A6B',
-        // paddingBottom: 20,
-        color: '#515A6B',
-    },
-    divider: {
-        width: 50,
-        height: 1,
-        backgroundColor: 'blue',
-    },
-    recWarn: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginTop: 100,
-        color: '#E68585',
-        justifyContent: 'center',
-        textAlign: 'center',
-    },
-    isLoaded: {
-        display: 'none',
-    },
-});
+                        }}>
+                            <Icon name="help" size={50} color="#1E1E1E"/>
+                            </TouchableOpacity>
+                            </View>
+                            </View>
+                            </View>
+                            );
+                            };
 
-export default Microphone;
+                            const styles = StyleSheet.create({
+                            container_: {
+                            flex: 1,
+                            },
+                            threeFlex: {
+                            flex: 3,
+                            // alignItems: 'center',
+                            // borderBottomWidth: 1,
+                            // borderBottomColor: 'blue',
+                            // backgroundColor: 'red',
+                            },
+                            twoFlex: {
+                            flex: 2,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            },
+                            listNews: {
+                            flex: 8,
+                            },
+                            searchBar: {
+                            flex: 1,
+                            // alignItems: 'center',
+                            // borderBottomWidth: 1,
+                            // borderBottomColor: 'blue',
+                            // backgroundColor: 'red',
+                            },
+                            div: {
+                            // flex: 1,
+                            // justifyContent: 'center',
+                            // alignItems: 'center',
+                            borderBottomWidth: 1,
+                            borderBottomColor: 'blue',
+                            },
+                            oneFlex: {
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            },
+                            oneFlex_: {
+                            borderTopWidth: 1,
+                            borderTopColor: 'blue',
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                            },
+                            controlPart: {
+                            flexBasis: '25%',
+                            alignItems: 'center',
+                            // alignContent: 'center',
+                            },
+                            keyword: {
+                            flex: 1,
+                            marginHorizontal: 30,
+                            justifyContent: 'center',
+                            },
+                            keyword_text: {
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                            fontSize: 30,
+                            borderBottomWidth: 3,
+                            borderBottomColor: '#515A6B',
+                            // paddingBottom: 20,
+                            color: '#515A6B',
+                            },
+                            divider: {
+                            width: 50,
+                            height: 1,
+                            backgroundColor: 'blue',
+                            },
+                            recWarn: {
+                            fontSize: 30,
+                            fontWeight: 'bold',
+                            marginTop: 100,
+                            color: '#E68585',
+                            justifyContent: 'center',
+                            textAlign: 'center',
+                            },
+                            isLoaded: {
+                            display: 'none',
+                            },
+                            });
+
+                            export default Microphone;

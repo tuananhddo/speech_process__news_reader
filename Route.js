@@ -2,12 +2,10 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import WeatherSearch from './screens/WeatherSearch';
-import ImageSearch from './screens/ImageSearch';
-
 import Microphone from './components/Microphone';
 
 import NewsSearch from './screens/NewsSearch';
+import MultipleCredit from './components/MultipleCredit';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -21,14 +19,9 @@ const MicrophoneStack = () => {
         options={{ title: 'Tìm kiếm tin tức' }}
       />
       <Stack.Screen
-        name="WeatherSearch"
-        component={WeatherSearch}
-        options={{ title: 'Search weather in location' }}
-      />
-      <Stack.Screen
-        name="ImageSearch"
-        component={ImageSearch}
-        options={{ title: 'Search for images' }}
+        name="Help"
+        component={MultipleCredit}
+        options={{ title: 'Information' }}
       />
       <Stack.Screen
         name="NewsSearch"
