@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import Voice from '@react-native-community/voice';
 import Sound from 'react-native-sound';
 import {
@@ -17,9 +17,12 @@ import {
     Body,
     Right,
     Thumbnail,
+    Icon,
 } from 'native-base';
 import SearchBar from './SearchBar';
 import {BASE_URL} from '../constants/apiKey';
+import ShareButton from '../screens/ShareButton';
+import SpinnerCustom from './PageLoader';
 
 const Microphone = ({navigation}) => {
     const [icon, setIcon] = useState('microphone');
@@ -87,14 +90,6 @@ const Microphone = ({navigation}) => {
         }
     };
 
-    const Divider = () => <View style={styles.divider}/>;
-    const styles2 = StyleSheet.create({
-        lottie: {
-            width: 100,
-            height: 100,
-        },
-    });
-
     function playSound(postLink) {
         console.log('postLink:' + postLink);
 
@@ -152,31 +147,42 @@ const Microphone = ({navigation}) => {
                 </Body>
                 <Right>
                     <Button
-                        small
+                        rounded
                         onPress={() => {
                             playSound(item.link);
                             navigation.navigate('NewsSearch', {url: item.link});
                         }}>
-                        <Text>View</Text>
+                        <Icon name='grid'/>
                     </Button>
+                </Right>
+                <Right>
+                    <ShareButton data={item.link}></ShareButton>
                 </Right>
             </ListItem>
         );
     };
+    console.log('-----PARENT-----');
+    console.log(data);
     return (
         <View style={styles.container_}>
             <View style={styles.searchBar}>
-                <SearchBar/>
+                <SearchBar setListData={setData} data={data} setText={setText}/>
             </View>
             <View style={styles.listNews}>
                 {text ? (
-                    <FlatList
-                        data={data}
-                        keyExtractor={({id}, index) => 'news' + index}
-                        renderItem={_renderItem}
-                    />
+                    data.length > 0 ?
+                        <FlatList
+                            data={data}
+                            key={'myFlatList'}
+                            keyExtractor={({id}, index) => 'news' + index}
+                            renderItem={_renderItem}
+                        />
+                        :
+                        <SpinnerCustom></SpinnerCustom>
                 ) : (
-                    <Text style={styles.recWarn}>Ghi âm</Text>
+                    <View>
+                        <Text style={styles.recWarn}>Ghi âm</Text>
+                    </View>
                 )}
             </View>
 
@@ -194,13 +200,13 @@ const Microphone = ({navigation}) => {
                             setLanguage(language === 'vi-VN' ? 'en-US' : 'vi-VN');
                         }}>
                         <Text>{language}</Text>
-                        <Icon name="search-plus" size={32} color="blue"/>
+                        <Icon name="ios-search" size={32} color="blue"/>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.controlPart}>
                     <TouchableOpacity onPress={touchMicro}>
-                        <Icon name={icon} size={50} color="green"/>
+                        <Icon name={icon} size={200} color="green"/>
                     </TouchableOpacity>
                 </View>
 
@@ -299,6 +305,9 @@ const styles = StyleSheet.create({
         color: '#E68585',
         justifyContent: 'center',
         textAlign: 'center',
+    },
+    isLoaded: {
+        display: 'none',
     },
 });
 

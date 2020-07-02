@@ -1,17 +1,11 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, View} from 'react-native';
 import {
-    Container,
     Header,
     Item,
     Input,
-    List,
-    FlatList,
-    Text,
-    ListItem,
 } from 'native-base';
 import _ from 'lodash';
-import PageLoader from './PageLoader';
+import {BASE_URL} from '../constants/apiKey';
 
 export default class SearchBar extends Component {
     constructor(props) {
@@ -25,23 +19,29 @@ export default class SearchBar extends Component {
         };
     }
 
-    componentDidMount() {
-        this.requestAPI();
-    }
-
     requestAPI = _.debounce(() => {
-        this.setState({loading: true});
-        const apiURL = ''; //a them cai api vao giup em
+        const {setListData, data,setText} = this.props;
+        console.log('rq');
+        setListData([]);
+        // this.setState({loading: true});
+        console.log('----START-QUERY----');
+        console.log(this.state.query);
+        console.log('----END-QUERY----');
+
+        setText(this.state.query)
+        // console.log('-----END-CHILD-----');
+
+        console.log(data);
+        const apiURL = BASE_URL + '/search?q=' + this.state.query + '/'; //a them cai api vao giup em
         fetch(apiURL)
             .then(res => res.json())
             .then(resJson => {
-                this.setState({
-                    loading: false,
-                    data: resJson,
-                    fullData: resJson,
-                }).catch(error => this.setState({error, loading: false}));
+                setListData(resJson);
+                console.log('Get Response');
+                console.log(resJson)
+
             });
-    }, 250);
+    }, 400);
     handleSearch = text => {
         // const formattedQuery = text.toLowerCase();
         // const data = _.filter(this.state.fullData, link => {
@@ -51,61 +51,11 @@ export default class SearchBar extends Component {
         //     }
         //     return false;
         // });
-        // this.setState({data, query: text});
-    };
-    _renderItem = ({item, index}) => {
-        return (
-            <ListItem>
-                <Text>{item.title}</Text>
-            </ListItem>
-        );
-    };
-    handlePress = ({item, index}) => {
-        // return (
-        //     <List>
-        //         <FlatList>
-        //             data={this.state.data}
-        //             renderItem={this._renderItem}
-        //             keyExtractor={{item, index}}
-        //             ListFooterComponent={this.renderFooter}
-        //         </FlatList>
-        //     </List>
-        // );
-    };
-    renderFooter = () => {
-        if (this.state.loading) {
-            return null;
-        }
-        return (
-            <View
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{
-                    paddingVertical: 1,
-                    borderBottomWidth: 1,
-                    borderColor: 'CED0CE',
-                }}>
-                <ActivityIndicator animating size="large"/>
-            </View>
-        );
+        this.setState({query: text});
+        this.requestAPI();
+        console.log(this.state.query);
     };
 
-    // render() {
-    //     return (
-    //         <Container>
-    //             <Header searchBar rounded>
-    //                 <Item>
-    //                     <Input
-    //                         placeholder="Search"
-    //                         onChangeText={this.handleSearch}
-    //                         onPress={this.handlePress}
-    //                     />
-    //                 </Item>
-    //             </Header>
-    //             <PageLoader show={this.state.loading}/>
-    //         </Container>
-    //     );
-    //
-    // }
     render() {
         return (
             <Header searchBar rounded>
